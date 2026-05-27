@@ -6,7 +6,8 @@ import SectionHeading from './SectionHeading';
 import { personalInfo } from '../data/portfolioData';
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL || '/api';
+// NEW CODE (Replace with your actual backend URL)
+const API_URL = 'https://your-backend-url.onrender.com/api';
 
 export default function Contact() {
   const [form, setForm] = useState({ name: '', email: '', message: '' });
@@ -157,9 +158,8 @@ export default function Contact() {
 
           {status.message && (
             <p
-              className={`text-sm font-medium ${
-                status.type === 'success' ? 'text-green-500' : 'text-red-500'
-              }`}
+              className={`text-sm font-medium ${status.type === 'success' ? 'text-green-500' : 'text-red-500'
+                }`}
             >
               {status.message}
             </p>
