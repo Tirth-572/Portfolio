@@ -6,8 +6,7 @@ import SectionHeading from './SectionHeading';
 import { personalInfo } from '../data/portfolioData';
 import axios from 'axios';
 
-// NEW CODE (Replace with your actual backend URL)
-const API_URL = 'https://your-backend-url.onrender.com/api';
+const API_URL = import.meta.env.VITE_API_URL || '/api';
 
 export default function Contact() {
   const [form, setForm] = useState({ name: '', email: '', message: '' });
