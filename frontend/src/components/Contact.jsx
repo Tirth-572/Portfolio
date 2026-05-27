@@ -24,16 +24,16 @@ export default function Contact() {
 
     try {
       const res = await axios.post('https://api.emailjs.com/api/v1.0/email/send', {
-        service_id: 'YOUR_SERVICE_ID', // Get this from EmailJS
-        template_id: 'YOUR_TEMPLATE_ID', // Get this from EmailJS
-        user_id: 'YOUR_PUBLIC_KEY', // Get this from EmailJS (Account -> API Keys -> Public Key)
+        service_id: 'service_s0jtz79', // Get this from EmailJS
+        template_id: 'template_0a0g21m', // Get this from EmailJS
+        user_id: '2F_VrU52zpaloS91j', // Get this from EmailJS (Account -> API Keys -> Public Key)
         template_params: {
           name: form.name,
           email: form.email,
           message: form.message
         }
       });
-      
+
       if (res.status === 200) {
         setStatus({ type: 'success', message: 'Message sent successfully!' });
         setForm({ name: '', email: '', message: '' });
