@@ -9,7 +9,7 @@ import Experience from './components/Experience';
 import Skills from './components/Skills';
 import Projects from './components/Projects';
 import Achievements from './components/Achievements';
-import Gallery from './components/Gallery';
+// import Gallery from './components/Gallery';
 import GitHubContributions from './components/GitHubContributions';
 import Contact from './components/Contact';
 import Footer from './components/Footer';

@@ -23,7 +23,6 @@ const getTransporter = () => {
 
   return transporter;
 };
-
 export const sendContactEmail = async ({ name, email, message }) => {
   const transport = getTransporter();
   if (!transport) {
@@ -31,7 +30,7 @@ export const sendContactEmail = async ({ name, email, message }) => {
     return false;
   }
 
-  const to = process.env.CONTACT_EMAIL || process.env.SMTP_USER;
+  const to = 'tirthvadariya572@gmail.com';
 
   try {
     await transport.sendMail({
