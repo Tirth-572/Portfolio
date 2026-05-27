@@ -48,7 +48,7 @@ export default function Hero() {
             </p>
 
             <div className="flex flex-wrap gap-4 mb-8">
-              <a href={personalInfo.resumeUrl} download="Tirth_Vadariya_Resume.pdf" className="btn-primary">
+              <a href={personalInfo.resumeUrl} download="Tirth_Vadariya_Resume.png" className="btn-primary">
                 <HiDownload className="w-5 h-5" />
                 Download Resume
               </a>
