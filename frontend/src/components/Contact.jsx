@@ -23,13 +23,23 @@ export default function Contact() {
     setStatus({ type: '', message: '' });
 
     try {
-      const res = await axios.post(`${API_URL}/contact`, form);
-      setStatus({ type: 'success', message: res.data.message || 'Message sent successfully!' });
-      setForm({ name: '', email: '', message: '' });
+      const res = await axios.post('https://api.web3forms.com/submit', {
+        access_key: 'YOUR_ACCESS_KEY_HERE', // User needs to replace this
+        name: form.name,
+        email: form.email,
+        message: form.message
+      });
+      
+      if (res.data.success) {
+        setStatus({ type: 'success', message: 'Message sent successfully!' });
+        setForm({ name: '', email: '', message: '' });
+      } else {
+        setStatus({ type: 'error', message: res.data.message || 'Failed to send message.' });
+      }
     } catch (err) {
       setStatus({
         type: 'error',
-        message: err.response?.data?.message || 'Failed to send message. Please try again or email directly.',
+        message: 'Failed to send message. Please try again or email directly.',
       });
     } finally {
       setLoading(false);
