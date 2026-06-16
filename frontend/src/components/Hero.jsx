@@ -11,7 +11,7 @@ export default function Hero() {
 
   return (
     <section id="home" className="relative min-h-screen flex items-center overflow-hidden">
-      <div className="absolute inset-0 bg-hero-gradient dark:bg-hero-gradient" />
+      <div className="absolute inset-0 bg-gradient-to-br from-primary-100 via-primary-50 to-primary-100" />
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-slate-50 dark:to-dark-500" />
       <ParticleBackground />
 

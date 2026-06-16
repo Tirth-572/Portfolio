@@ -1,97 +1,96 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-scroll';
 import { motion, AnimatePresence } from 'framer-motion';
-import { HiMenu, HiX, HiMoon, HiSun } from 'react-icons/hi';
-import { useTheme } from '../context/ThemeContext';
 import { navLinks } from '../data/portfolioData';
 
 export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
   const [scrolled, setScrolled] = useState(false);
-  const { isDark, toggleTheme } = useTheme();
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener('scroll', handleScroll);
+    const handleScroll = () => {
+      // Show navbar only after scrolling down 50px
+      setScrolled(window.scrollY > 50);
+
+      const scrollPosition = window.scrollY + window.innerHeight / 3;
+      let currentIdx = 0;
+      
+      navLinks.forEach((link, index) => {
+        const element = document.getElementById(link.to);
+        if (element && element.offsetTop <= scrollPosition) {
+          currentIdx = index;
+        }
+      });
+      
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 50) {
+        currentIdx = navLinks.length - 1;
+      }
+
+      setActiveIndex(currentIdx);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    setTimeout(handleScroll, 100);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const visibleLinks = navLinks.slice(0, activeIndex + 1);
+
   return (
-    <motion.nav
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? 'glass py-3 shadow-lg' : 'bg-transparent py-5'
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-        <Link to="home" smooth duration={500} className="cursor-pointer">
-          <span className="font-display text-xl font-bold gradient-text">TV</span>
-        </Link>
-
-        <div className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <Link
-              key={link.to}
-              to={link.to}
-              spy
-              smooth
-              offset={-80}
-              duration={500}
-              activeClass="text-primary-500"
-              className="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary-500 cursor-pointer transition-colors"
+    <AnimatePresence>
+      {scrolled && (
+        <motion.nav 
+          initial={{ y: -100, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: -100, opacity: 0 }}
+          transition={{ duration: 0.3 }}
+          className="fixed top-4 md:top-6 left-0 right-0 z-50 flex justify-center items-center px-4 pointer-events-none"
+        >
+          <div className="flex items-center justify-center w-full pointer-events-auto">
+            {/* Center Dynamic Pill */}
+            <motion.div 
+              layout
+              className="bg-white/70 backdrop-blur-xl border border-white/50 rounded-full shadow-lg p-1.5 flex items-center gap-1 overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
             >
-              {link.name}
-            </Link>
-          ))}
-        </div>
-
-        <div className="flex items-center gap-3">
-          <button
-            onClick={toggleTheme}
-            className="p-2 rounded-lg glass hover:border-primary-500/30 transition-colors"
-            aria-label="Toggle theme"
-          >
-            {isDark ? <HiSun className="w-5 h-5 text-primary-400" /> : <HiMoon className="w-5 h-5 text-primary-600" />}
-          </button>
-
-          <button
-            className="md:hidden p-2 rounded-lg glass"
-            onClick={() => setIsOpen(!isOpen)}
-            aria-label="Toggle menu"
-          >
-            {isOpen ? <HiX className="w-6 h-6" /> : <HiMenu className="w-6 h-6" />}
-          </button>
-        </div>
-      </div>
-
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden glass mt-2 mx-4 rounded-xl overflow-hidden"
-          >
-            <div className="py-4 flex flex-col gap-2">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.to}
-                  to={link.to}
-                  spy
-                  smooth
-                  offset={-80}
-                  duration={500}
-                  onClick={() => setIsOpen(false)}
-                  className="px-6 py-3 text-slate-600 dark:text-slate-300 hover:text-primary-500 hover:bg-primary-500/10 cursor-pointer transition-colors"
-                >
-                  {link.name}
-                </Link>
-              ))}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.nav>
+              <AnimatePresence mode="popLayout">
+                {visibleLinks.map((link, idx) => {
+                  const isActive = idx === activeIndex;
+                  return (
+                    <motion.div
+                      key={link.to}
+                      layout
+                      initial={{ opacity: 0, x: -20, scale: 0.8 }}
+                      animate={{ opacity: 1, x: 0, scale: 1 }}
+                      exit={{ opacity: 0, x: 20, scale: 0.8 }}
+                      transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                      className="relative flex items-center shrink-0"
+                    >
+                      <Link
+                        to={link.to}
+                        smooth
+                        duration={500}
+                        offset={-80}
+                        className={`relative z-10 px-3 py-1.5 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-semibold cursor-pointer transition-colors block ${
+                          isActive ? 'text-primary-700' : 'text-slate-500 hover:text-primary-600'
+                        }`}
+                      >
+                        <span className="relative z-10 whitespace-nowrap">{link.name}</span>
+                        {isActive && (
+                          <motion.div
+                            layoutId="activePill"
+                            className="absolute inset-0 bg-primary-100/50 border border-primary-200 rounded-full shadow-[0_0_10px_rgba(113,201,206,0.3)]"
+                            transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                          />
+                        )}
+                      </Link>
+                    </motion.div>
+                  );
+                })}
+              </AnimatePresence>
+            </motion.div>
+          </div>
+        </motion.nav>
+      )}
+    </AnimatePresence>
   );
 }
