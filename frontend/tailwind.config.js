@@ -18,16 +18,16 @@ export default {
           900: '#0f172a',
         },
         primary: {
-          50: '#eef2ff',
-          100: '#e0e7ff',
-          200: '#c7d2fe',
-          300: '#a5b4fc',
-          400: '#818cf8',
-          500: '#6366f1',
-          600: '#4f46e5',
-          700: '#4338ca',
-          800: '#3730a3',
-          900: '#312e81',
+          50: '#E3FDFD',
+          100: '#CBF1F5',
+          200: '#B8EAF0',
+          300: '#A6E3E9',
+          400: '#8AD5DA',
+          500: '#71C9CE',
+          600: '#5AB7BD',
+          700: '#43A5AC',
+          800: '#2C939B',
+          900: '#15818A',
         },
         dark: {
           50: '#D8DBE2',
@@ -44,8 +44,8 @@ export default {
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'hero-gradient': 'linear-gradient(135deg, #f8fafc 0%, #e0e7ff 50%, #f8fafc 100%)',
-        'orange-glow': 'linear-gradient(135deg, #818cf8 0%, #6366f1 50%, #4f46e5 100%)',
+        'hero-gradient': 'linear-gradient(135deg, #CBF1F5 0%, #E3FDFD 50%, #CBF1F5 100%)',
+        'orange-glow': 'linear-gradient(135deg, #A6E3E9 0%, #71C9CE 50%, #5AB7BD 100%)',
       },
       animation: {
         float: 'float 6s ease-in-out infinite',
@@ -64,11 +64,12 @@ export default {
         },
       },
       boxShadow: {
-        glow: '0 0 40px rgba(99, 102, 241, 0.3)',
-        'glow-lg': '0 0 60px rgba(99, 102, 241, 0.4)',
+        glow: '0 0 40px rgba(113, 201, 206, 0.3)',
+        'glow-lg': '0 0 60px rgba(113, 201, 206, 0.4)',
         glass: '0 8px 32px rgba(0, 0, 0, 0.1)',
       },
     },
   },
   plugins: [],
 };
+
