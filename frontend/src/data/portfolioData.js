@@ -8,7 +8,7 @@ export const personalInfo = {
   email: 'tirthvadariya572@gmail.com',
   github: 'https://github.com/Tirth-572',
   linkedin: 'https://www.linkedin.com/in/tirth-vadariya-53351637a/',
-  resumeUrl: '/Tirth Vadariya Resume.png',
+  resumeUrl: '/Tirth Vadariya.pdf',
 };
 
 export const education = {
