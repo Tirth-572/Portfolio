@@ -14,7 +14,7 @@ export default function Projects() {
     axios
       .get(`${API_URL}/projects`)
       .then((res) => {
-        if (res.data?.length) setProjects(res.data);
+        if (Array.isArray(res.data) && res.data.length > 0) setProjects(res.data);
       })
       .catch(() => {});
   }, []);
