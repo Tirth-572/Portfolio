@@ -1,14 +1,15 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { HiMail, HiLocationMarker } from 'react-icons/hi';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import SectionHeading from './SectionHeading';
 import { personalInfo } from '../data/portfolioData';
-import axios from 'axios';
+import emailjs from '@emailjs/browser';
 
 const API_URL = import.meta.env.VITE_API_URL || '/api';
 
 export default function Contact() {
+  const formRef = useRef();
   const [form, setForm] = useState({ name: '', email: '', message: '' });
   const [status, setStatus] = useState({ type: '', message: '' });
   const [loading, setLoading] = useState(false);
@@ -23,27 +24,20 @@ export default function Contact() {
     setStatus({ type: '', message: '' });
 
     try {
-      const res = await axios.post('https://api.emailjs.com/api/v1.0/email/send', {
-        service_id: 'service_s0jtz79', // Get this from EmailJS
-        template_id: 'template_0a0g21m', // Get this from EmailJS
-        user_id: '2F_VrU52zpaloS91j', // Get this from EmailJS (Account -> API Keys -> Public Key)
-        template_params: {
-          name: form.name,
-          email: form.email,
-          message: form.message
-        }
-      });
+      await emailjs.sendForm(
+        'service_5ljlgbc', // Get this from EmailJS
+        'template_0a0g21m', // Get this from EmailJS
+        formRef.current,
+        '2F_VrU52zpaloS91j' // Get this from EmailJS (Account -> API Keys -> Public Key)
+      );
 
-      if (res.status === 200) {
-        setStatus({ type: 'success', message: 'Message sent successfully!' });
-        setForm({ name: '', email: '', message: '' });
-      } else {
-        setStatus({ type: 'error', message: 'Failed to send message.' });
-      }
+      setStatus({ type: 'success', message: 'Message sent successfully!' });
+      setForm({ name: '', email: '', message: '' });
     } catch (err) {
+      console.error('EmailJS Error:', err);
       setStatus({
         type: 'error',
-        message: 'Failed to send message. Please try again or email directly.',
+        message: err?.text || 'Failed to send message. Please try again or email directly.',
       });
     } finally {
       setLoading(false);
@@ -117,6 +111,7 @@ export default function Contact() {
         </motion.div>
 
         <motion.form
+          ref={formRef}
           initial={{ opacity: 0, x: 30 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
